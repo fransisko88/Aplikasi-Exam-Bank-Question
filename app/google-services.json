@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "593026344274",
+    "project_id": "examschool-de6dc",
+    "storage_bucket": "examschool-de6dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593026344274:android:edee9dfe1548eb5711068b",
+        "android_client_info": {
+          "package_name": "com.example.examschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593026344274-505ac3dd6heukekapef9v89god3oiieh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.examschool",
+            "certificate_hash": "c8e98b20fdc6a9320b247d5396011b7c7f3db4ef"
+          }
+        },
+        {
+          "client_id": "593026344274-k607bpqp098oq6pb0o23p5mq7dvjhgkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTIzSWBisk1BsFGK3yBQPMjPvnD9YiyyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593026344274-k607bpqp098oq6pb0o23p5mq7dvjhgkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
