@@ -1,7 +1,9 @@
 package com.example.examschool.teacher;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -22,8 +24,10 @@ import com.example.examschool.utils.FirebaseUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
@@ -31,10 +35,11 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class QuestionActivity extends AppCompatActivity {
-    private String bankQuestionId,lessonName,duration,token,classRoom;
+    private String bankQuestionId, lessonName, duration, token, classRoom;
     private ArrayList<Question> questions;
     private RecyclerView recyclerView;
     private AdapterQuestionTeacher adapterQuestionTeacher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,9 +77,9 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), CreateQuestion.class);
-                intent.putExtra("bankQuestionId",bankQuestionId);
-                intent.putExtra("classRooom",classRoom);
-                intent.putExtra("lessonName",lessonName);
+                intent.putExtra("bankQuestionId", bankQuestionId);
+                intent.putExtra("classRooom", classRoom);
+                intent.putExtra("lessonName", lessonName);
                 intent.putExtra("tokenQuestion", token);
                 intent.putExtra("duration", duration);
                 startActivity(intent);
@@ -85,31 +90,47 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         questions = new ArrayList<Question>();
         listQuestion();
-        adapterQuestionTeacher = new AdapterQuestionTeacher(QuestionActivity.this,questions);
+        adapterQuestionTeacher = new AdapterQuestionTeacher(QuestionActivity.this, questions);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterQuestionTeacher);
     }
 
-    private void listQuestion(){
-        FirebaseUtils.getFirestore().collection("question").whereEqualTo("bankQuestionId",bankQuestionId).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(value != null && value.getDocumentChanges() != null ){
-                    for (DocumentChange dc : value.getDocumentChanges()){
-                        if(dc.getType() == DocumentChange.Type.ADDED){
-                            questions.add(dc.getDocument().toObject(Question.class));
+    private void listQuestion() {
+        FirebaseUtils.getFirestore()
+                .collection("question")
+                .whereEqualTo("bankQuestionId", bankQuestionId)
+                .orderBy("createdAt", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
                         }
-                        adapterQuestionTeacher.notifyDataSetChanged();
+
+                        if (value != null && !value.isEmpty()) {
+                            int questionNumber = 1;
+                            questions.clear();
+
+                            for (DocumentSnapshot document : value.getDocuments()) {
+                                Question question = document.toObject(Question.class);
+                                if (question != null) {
+                                    question.setNomorurut(questionNumber);
+                                    questions.add(question);
+                                    questionNumber++;
+                                }
+                            }
+                            adapterQuestionTeacher.notifyDataSetChanged();
+                        }
                     }
-                }
-            }
-        });
+                });
     }
+
+
 
 }
