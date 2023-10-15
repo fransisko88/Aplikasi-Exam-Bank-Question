@@ -38,7 +38,7 @@ public class AdapterQuestionTeacher extends RecyclerView.Adapter<AdapterQuestion
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Question question = questions.get(position);
-        holder.txt_teks_soal.setText(question.getTeksSoal());
+        holder.txt_teks_soal.setText(question.getNomorurut().toString().concat(". ").concat(question.getTeksSoal().toString()));
         holder.txt_jawaban.setText("Pilihan : \n "
                         + "  A. " + question.getPilihanA() + "\n "
                         + "  B. " + question.getPilihanB() + "\n "
