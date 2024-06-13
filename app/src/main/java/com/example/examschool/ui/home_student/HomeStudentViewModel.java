@@ -40,63 +40,6 @@ public class HomeStudentViewModel extends ViewModel {
         return bankQuestionsFinish;
     }
 
-
-//    public void loadBankQuestions() {
-//        final String studentId = FirebaseUtils.getFirebaseUser().getUid();
-//        List<BankQuestionStudent> bank = new ArrayList<>();
-//        FirebaseUtils.getFirestore().collection("bankQuestionStudent")
-//                .whereEqualTo("studentId",studentId)
-//                .whereEqualTo("done",false)
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                        if(value != null && value.getDocumentChanges() != null ){
-//                            for (DocumentChange dc : value.getDocumentChanges()){
-//                                if(dc.getType() == DocumentChange.Type.ADDED){
-//                                    String bankQuestionId = dc.getDocument().getString("bankQuestionId");
-//                                    String createdAt = dc.getDocument().getString("createdAt");
-//                                    FirebaseUtils.getFirestore().collection("bankQuestion")
-//                                            .whereEqualTo("bankQuestionId",bankQuestionId)
-//                                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                                                @Override
-//                                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                                                    if(value != null && value.getDocumentChanges() != null ){
-//                                                        for (DocumentChange dc1 : value.getDocumentChanges()){
-//                                                            Double duration = dc1.getDocument().getDouble("duration");
-////                                                            if (duration != null) {
-////                                                                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-////                                                                Date createdAtDate = null;
-////                                                                try {
-////                                                                    createdAtDate = format.parse(createdAt);
-////                                                                } catch (ParseException e) {
-////                                                                    e.printStackTrace();
-////                                                                }
-////                                                                if (createdAtDate != null) {
-////                                                                    Calendar cal = Calendar.getInstance();
-////                                                                    cal.setTime(createdAtDate);
-////                                                                    cal.add(Calendar.MINUTE, duration.intValue());
-////                                                                    Date expiredDate = cal.getTime();
-////                                                                    Date currentDate = new Date();
-////                                                                    if (currentDate.before(expiredDate)) {
-////                                                                        bank.add(dc.getDocument().toObject(BankQuestionStudent.class));
-////                                                                    }
-////                                                                }
-////                                                            }
-//                                                            bank.add(dc.getDocument().toObject(BankQuestionStudent.class));
-//
-//                                                        }
-//                                                        bankQuestions.postValue(bank);
-//                                                    }
-//                                                }
-//                                            });
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                });
-//    }
-
     public void loadBankQuestions() {
         final String studentId = FirebaseUtils.getFirebaseUser().getUid();
         List<BankQuestionStudent> bank = new ArrayList<>();

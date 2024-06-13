@@ -96,6 +96,7 @@
                     android:id="@+id/btnViewStudent"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-5dp"
                     android:text="Edit Profile"

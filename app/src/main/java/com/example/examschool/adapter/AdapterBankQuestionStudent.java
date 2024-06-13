@@ -81,27 +81,42 @@ public class AdapterBankQuestionStudent extends RecyclerView.Adapter<AdapterBank
                                 holder.txtTeacherName.setText("Nama guru : " + data1.getFullname());
                                 holder.txtLessonName.setText(data.getLessonName());
 
-
-
-                                if(bankQuestion.getSkor().isEmpty()){
+                                if (!bankQuestion.getDone()) {
                                     holder.txtDuration.setText((int) Double.parseDouble(data.getDuration().toString()) + " Menit");
                                     holder.txtSkor.setVisibility(View.GONE);
-                                }else{
+                                    holder.txtSkor.setText("");
+                                } else {
                                     holder.txtDuration.setVisibility(View.GONE);
                                     holder.txtSkor.setVisibility(View.VISIBLE);
-                                    holder.txtCreated.setText("Skor Anda : " + bankQuestion.getCreatedAt());
+                                    holder.txtCreated.setText("Tanggal / Waktu : " + bankQuestion.getCreatedAt());
                                     holder.linearClik.setClickable(false);
+
+                                    CollectionReference questionStudentRef = db.collection("question_student");
+                                    Query query2 = questionStudentRef
+                                            .whereEqualTo("bankQuestionId", bankQuestion.getBankQuestionId());
+                                    query2.get().addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            int skor = 0;
+                                            for (QueryDocumentSnapshot document2 : task2.getResult()) {
+                                                String jawabanBenar = document2.getString("jawabanBenar");
+                                                String jawabanStudent = document2.getString("jawabanStudent");
+
+                                                // Periksa apakah jawabanStudent sama dengan jawabanBenar
+                                                if (jawabanBenar != null && jawabanStudent != null && !jawabanStudent.equals(jawabanBenar)) {
+                                                    skor++;
+                                                }
+                                            }
+                                            holder.txtSkor.setText("Skor Anda : " + skor);
+                                        }
+                                    });
                                 }
                             }
                         }
-
                     });
-
                 }
             }
         });
 
-        holder.txtSkor.setText("Skor Anda : " + bankQuestion.getSkor());
 
         holder.linearClik.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -299,7 +299,7 @@ public class HomeStudentFragment extends Fragment {
                                         data.put("bankQuestionStudentId", id);
                                         data.put("studentId", FirebaseUtils.getFirebaseUser().getUid());
                                         data.put("bankQuestionId", bankQuestionId);
-                                        data.put("done", false);
+                                        data.put("done", true);
                                         data.put("skor", "0");
                                         data.put("fullname", fullname);
                                         data.put("createdAt", FirebaseUtils.getCurrentDateTime());
