@@ -97,6 +97,7 @@ public class AdapterBankQuestionStudent extends RecyclerView.Adapter<AdapterBank
                                     query2.get().addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
                                             int skor = 0;
+                                            int totalSoal = 0;
                                             for (QueryDocumentSnapshot document2 : task2.getResult()) {
                                                 String jawabanBenar = document2.getString("jawabanBenar");
                                                 String jawabanStudent = document2.getString("jawabanStudent");
@@ -105,8 +106,11 @@ public class AdapterBankQuestionStudent extends RecyclerView.Adapter<AdapterBank
                                                 if (jawabanBenar != null && jawabanStudent != null && !jawabanStudent.equals(jawabanBenar)) {
                                                     skor++;
                                                 }
+                                                totalSoal++;
                                             }
-                                            holder.txtSkor.setText("Skor Anda : " + skor);
+                                            double persentase = ((double) skor / totalSoal) * 100;
+                                            int roundedPersentase = (int) Math.round(persentase);
+                                            holder.txtSkor.setText("Skor Anda : " + roundedPersentase );
                                         }
                                     });
                                 }
